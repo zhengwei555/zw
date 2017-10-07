@@ -26,7 +26,22 @@ class Index extends Home{
         $this->assign('lists',$lists);//列表
         $this->assign('page',model('Document')->page);//分页
 
-        return $this->fetch();
+        return $this->fetch('index');
     }
 
+    //服务
+    public function Fuwu(){
+
+        return $this->fetch('fuwu');
+    }
+
+    //发现
+    public function Faxian(){
+        return $this->fetch('faxian');
+    }
+
+    //我的
+    public function My(){
+        return $this->fetch('my');
+    }
 }

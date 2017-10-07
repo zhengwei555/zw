@@ -39,6 +39,7 @@ class Article extends Admin {
             case 'update':  //更新
                 $doc_id  =  input('id');
                 $cate_id =  \think\Db::name('Document')->where(array('id'=>$doc_id))->value('category_id');
+
                 break;
             case 'setstatus': //更改状态
             case 'permit':    //回收站

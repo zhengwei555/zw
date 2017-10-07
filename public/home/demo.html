@@ -1,0 +1,25 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="test.aspx.cs" Inherits="test" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <mce:script language="javascript" type="text/javascript" src="My97DatePicker/WdatePicker.js" mce_src="My97DatePicker/WdatePicker.js" charset="gb2312"></mce:script>
+
+</head>
+<body>
+<form id="form1" runat="server">
+    <div>
+        <asp:TextBox ID="txtDate" runat="server" onClick="WdatePicker()"></asp:TextBox>
+
+        <br>
+        <hr/>
+        <asp:TextBox ID="TextBox1" runat="server" onClick="WdatePicker()"></asp:TextBox>
+        <img onclick="WdatePicker({el:$dp.$('TextBox1')})" src="My97DatePicker/skin/datePicker.gif" mce_src="My97DatePicker/skin/datePicker.gif" width="16" height="22" align="absmiddle">
+
+        <br>
+        <hr/>
+        <asp:TextBox ID="TextBox3" runat="server" onfocus="WdatePicker({isShowWeek:true})"/></asp:TextBox>
+    </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,63 @@
+{extend name="public/base" /}
+
+{block name="body"}
+<div class="main-title">
+    <h2>{:isset($info['id'])?'编辑':'新增'}事故报修</h2>
+</div>
+<form action="{:url()}" method="post" class="form-horizontal">
+    <div class="form-item">
+        <label class="item-label">报修人<span class="check-tips">（报修人）</span></label>
+        <div class="controls">
+            <input type="text" class="text input-large" name="name" value="{$info.name|default=''}">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="item-label">电话<span class="check-tips">（联系电话）</span></label>
+        <div class="controls">
+            <input type="text" class="text input-small" name="tel" value="{$info.tel|default=0}">
+        </div>
+    </div>
+    <!--<div class="form-item">-->
+    <!--<label class="item-label">模块<span class="check-tips">（所属模块）</span></label>-->
+    <!--<div class="controls">-->
+    <!--<input type="text" class="text input-large" name="module" value="{$info.module|default='admin'}">-->
+    <!--</div>-->
+    <!--</div>-->
+    <div class="form-item">
+        <label class="item-label">地址<span class="check-tips">（发生事故的地点）</span></label>
+        <div class="controls">
+            <input type="text" class="text input-large" name="address" value="{$info.address|default=''}">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="item-label">事故详情<span class="check-tips">（事故详情）</span></label>
+        <div class="controls">
+            <input type="text" class="text input-large" name="problem" value="{$info.problem|default=''}">
+        </div>
+    </div>
+    <div class="form-item">
+        <label class="item-label">状态<span class="check-tips">（处理状态）</span></label>
+        <div class="controls">
+            <label class="radio"><input type="radio" name="status" value="1" <?php if($info[status]==1) echo("checked");?>>已处理</label>
+            <label class="radio"><input type="radio" name="status" value="0" <?php if($info[status]==0) echo("checked");?>>未处理</label>
+        </div>
+    </div>
+
+
+    <div class="form-item">
+        <input type="hidden" name="id" value="{$info.id|default=''}">
+        <button class="btn submit-btn ajax-posts" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+        <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+    </div>
+</form>
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+    Think.setValue("pid", {$info.pid|default = 0});
+    Think.setValue("hide", {$info.hide|default = 0});
+    Think.setValue("is_dev", {$info.is_dev|default = 0});
+    //导航高亮
+    highlight_subnav('{:url('index')}');
+</script>
+{/block}

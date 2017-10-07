@@ -1,0 +1,112 @@
+{extend name="public/base" /}
+
+{block name="body"}
+
+<div class="main-title">
+    <h2>{:isset($info['id'])?'编辑':'新增'}事故报修</h2>
+</div>
+<form action="{:url()}" method="post" class="form-horizontal">
+    <div class="form-item">
+        <label class="item-label">标题<span class="check-tips">（标题）</span></label>
+        <div class="controls">
+            <input type="text" class="text input-large" name="title" value="{$info.title|default=''}">
+        </div>
+    </div>
+    <!--<div class="form-item">-->
+    <!--<label class="item-label">模块<span class="check-tips">（所属模块）</span></label>-->
+    <!--<div class="controls">-->
+    <!--<input type="text" class="text input-large" name="module" value="{$info.module|default='admin'}">-->
+    <!--</div>-->
+    <!--</div>-->
+    <div class="form-item">
+        <label class="item-label">标识<span class="check-tips">（同一根节点下标识不重复）</span></label>
+        <div class="controls">
+            <input type="text" class="text input-large" name="name" value="{$info.name|default=''}">                    </div>
+    </div>
+
+    <div class="form-item ">
+        <label class="item-label">描述<span class="check-tips"></span></label>
+        <div class="controls">
+            <label class="textarea input-large">
+                <textarea name="description">{$info.description|default=''}</textarea>
+            </label>                    </div>
+    </div>
+    <div class="form-item">
+
+        <input type="hidden" name="content" value="0">
+        <link rel="stylesheet" href="/static/static/kindeditor/default/default.css">
+        <script charset="utf-8" src="/static/static/kindeditor/kindeditor-min.js"></script>
+        <script charset="utf-8" src="/static/static/kindeditor/zh_CN.js"></script>
+        <script type="text/javascript">
+            var editor_content;
+            KindEditor.ready(function(K) {
+                editor_content = K.create('textarea[name="content"]', {
+                    allowFileManager : false,
+                    themesPath: K.basePath,
+                    width: '100%',
+                    height: '500px',
+                    resizeType: 1,
+                    pasteType : 2,
+                    urlType : 'absolute',
+                    fileManagerJson : '/admin.php/Sale/fileManagerJson.html',
+                    //uploadJson : '/admin.php/Sale/uploadJson.html' }
+                    uploadJson : '/admin.php/Addons/execute/_addons/EditorForAdmin/_controller/Upload/_action/ke_upimg.html',
+                    extraFileUploadParams: {
+                        session_id : 'l73ulcq0704fh7sc8e5e5rtvg3'
+                    }
+                });
+            });
+
+            $(function(){
+                //传统表单提交同步
+                $('textarea[name="content"]').closest('form').submit(function(){
+                    editor_content.sync();
+                });
+                //ajax提交之前同步
+                $('button[type="submit"],#submit,.ajax-post,#autoSave').click(function(){
+                    editor_content.sync();
+                });
+            })
+        </script>
+
+        </label>
+    </div>
+    <div class="form-item">
+        <label class="item-label">详情<span class="check-tips">（活动详情）</span></label>
+        <textarea name="content" rows="8" cols="50">{$info.content|default=''}</textarea>
+    </div>
+    <div class="form-item">
+        <label class="item-label">浏览量<span class="check-tips"></span></label>
+        <div class="controls">
+            <input type="text" class="text input-mid" name="view" value="{$info.view|default='0'}">                    </div>
+    </div>
+
+
+
+    <div class="form-item">
+        <input type="hidden" name="id" value="{$info.id|default=''}">
+        <button class="btn submit-btn ajax-posts" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+        <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+    </div>
+</form>
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+    Think.setValue("pid", {$info.pid|default = 0});
+    Think.setValue("hide", {$info.hide|default = 0});
+    Think.setValue("is_dev", {$info.is_dev|default = 0});
+    //导航高亮
+    highlight_subnav('{:url('index')}');
+</script>
+{/block}
+<script>
+    $('.input_cxcalendar').each(function(){
+        var a = new Calendar({
+            targetCls: $(this),
+            type: 'yyyy-mm-dd' 或者 ‘yyyy-mm-dd HH:MM:SS’ 或者 ‘yyyy-mm-dd HH:MM’;
+    },function(val){
+            console.log(val);  // 回调函数 当前选中的值
+        });
+    });
+</script>　
