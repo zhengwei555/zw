@@ -9,15 +9,8 @@ class Baoxiu extends Admin{
      * 频道列表
      */
     public function index(){
-      //  $pid = input('get.pid', 0);
-        /* 获取频道列表 */
-/*        $map  = array('status' => array('gt', -1), 'pid'=>$pid);
-        $list = \think\Db::name('Channel')->where($map)->select();
-        $this->assign('list', $list);
-        $this->assign('pid', $pid);
-        $this->assign('meta_title' , '导航管理');
-        return $this->fetch();*/
-        $list = \think\Db::name('baoxiu')->order('id asc')->select();
+        $map = array();
+       // $list = \think\Db::name('baoxiu')->order('id asc')->select();
 /*        foreach ($list as $key=>$value){
             if($value['status'] =0){
                 $list['status'] = '待处理';
@@ -25,6 +18,10 @@ class Baoxiu extends Admin{
                 $list['status'] = '处理完成';
             }
         }*/
+        $list = $this->lists('Baoxiu', $map,'id');
+        int_to_baoxiu($list);
+        // 记录当前列表页的cookie
+        Cookie('__forward__',$_SERVER['REQUEST_URI']);
         $this->assign('list', $list);
        // $this->assign('meta_title' , '报修管理');
         return $this->fetch();
@@ -34,7 +31,6 @@ class Baoxiu extends Admin{
         if(request()->isPost()){ //post提交
             $baoxiu=model('baoxiu');
             $post_data=$this->request->post();
-            $post_data['create_time']=time();
             $post_data['status']=0;
             //自动验证
             $validate = validate('baoxiu');
@@ -42,7 +38,7 @@ class Baoxiu extends Admin{
              //   var_dump(21);die;
                 return $this->error($validate->getError());
             }
-            $data = $baoxiu->insert($post_data); //保存
+            $data = $baoxiu->create($post_data); //保存
           //  var_dump($validate);die;
             if($data){
                 $this->success('新增成功', url('index'));//跳转到列表页
@@ -62,12 +58,14 @@ class Baoxiu extends Admin{
       //  var_dump($id);die;
         if(request()->isPost()){ //post提交
             $post_data=$this->request->post();
-            $baoxiu = \think\Db::name("baoxiu");
+            $baoxiu = \think\Loader::model('Baoxiu');
+         //   $baoxiu = \think\Db::name("baoxiu");
             $data = $baoxiu->update($post_data); //保存
             //  var_dump($validate);die;
-            if($data!=false){
+            if($data!==false){
                 $this->success('编辑成功', url('index'));//跳转到列表页
            } else {
+            //    var_dump(1);die;
                 $this->error('编辑失败');
             }
         }else{
@@ -94,13 +92,14 @@ class Baoxiu extends Admin{
 
         $map = array('id' => array('in', $id) );
         if(\think\Db::name('baoxiu')->where($map)->delete()){
-            cache('db_config_data',null);
+            cache('db_baoxiu_data',null);
             //记录行为
-            action_log('update_baoxiu', 'baoxiu', $id, UID);
+            action_log('update_baoxiu','baoxiu',$id,UID);
             $this->success('删除成功');
         } else {
             $this->error('删除失败！');
         }
     }
+
 
 }

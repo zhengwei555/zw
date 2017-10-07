@@ -23,6 +23,7 @@
 					<th>名字</th>
                     <th>电话</th>
 					<th>详情</th>
+					<th>时间</th>
 					<th>状态</th>
 					<th>操作</th>
 				</tr>
@@ -31,13 +32,14 @@
 				{notempty name="list"}
 				{volist name="list" id="baoxiu"}
 					<tr>
-						<td><input class="ids row-selected" type="checkbox" name="" id="" value="{$baoxiu['id']}"> </td>
+						<td><input class="ids row-selected" type="checkbox" name="id[]" id="" value="{$baoxiu['id']}"> </td>
 						<td>{$baoxiu.id}</td>
 						<td>{$baoxiu.sn}</td>
 						<td>{$baoxiu.name}</td>
 						<td>{$baoxiu.tel}</td>
-                        <td>{$baoxiu.detail}</td>
-                        <td>{$baoxiu.status}</td>
+						<td>{$baoxiu.detail}</td>
+						<td>{$baoxiu.create_time|time_format}</td>
+                        <td>{$baoxiu.status_text}</td>
 						<td>
 							<a title="编辑" href="{:url('edit?id='.$baoxiu['id'])}">编辑</a>
 							<a href="{:url('setStatus?ids='.$baoxiu['id'].'&status='.abs(1-$baoxiu['status']))}" class="ajax-get">{$baoxiu.status|show_status_op}</a>
@@ -50,7 +52,12 @@
 				{/notempty}
 			</tbody>
 		</table>
+
 	</div>
+<!-- 分页 -->
+		<div class="page">
+			{$_page}
+		</div>
 {/block}
 
 {block name="script"}
